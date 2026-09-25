@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<!-- saved from url=(0101)file:///C:/Users/%D0%B8%D1%87%D1%81/Downloads/6%2520DPC%2520-%2520Audio%2520Channel_DPC_Space_v4.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d0905">
+<title>DPC — Audio Channel</title>
+<style>
+:root{--bg:#0d0905;--panel:#17100a;--panel2:#21150b;--gold:#ff9b28;--gold2:#ffd18a;--text:#fff3df;--muted:#ad9071;--line:#5d3517;--ok:#75d69b}
+*{box-sizing:border-box}
+body{margin:0;background:#090604;color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(rgba(255,143,35,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,143,35,.04) 1px,transparent 1px);background-size:34px 34px;pointer-events:none}
+.app{max-width:520px;margin:auto;min-height:100vh;background:radial-gradient(circle at 50% 0,#4c240b22,transparent 35%),var(--bg);padding-bottom:92px}
+
+/* ===== HEADER ===== */
+header{position:sticky;top:0;z-index:6;background:#0d0905ef;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:9px 12px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.live{display:flex;align-items:center;gap:8px;border:1px solid #8d4c16;border-radius:999px;padding:6px 12px;background:#1b1008}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--gold2);animation:pulse 1.9s infinite;flex:0 0 7px}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #ff9b2899}70%{box-shadow:0 0 0 7px #ff9b2800}100%{box-shadow:0 0 0 0 #ff9b2800}}
+.live-num{display:block;color:var(--gold2);font-weight:900;font-size:15px;font-variant-numeric:tabular-nums;letter-spacing:.3px;line-height:1.1}
+.live-cap{display:block;font-size:8px;line-height:1.1;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted)}
+.live-cap b{color:var(--ok)}
+.clock{display:flex;flex-direction:column;line-height:1.3;font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.clock b{color:#f0d1a9;font-size:12px}
+.sw{display:flex;align-items:center;gap:4px;border:1px solid #6b3b16;background:#170e07;border-radius:999px;padding:3px 5px 3px 9px}
+.sw-time{font-weight:900;font-size:12px;color:var(--gold2);font-variant-numeric:tabular-nums;min-width:46px;text-align:center}
+.sw button{width:21px;height:21px;padding:0;border-radius:50%;font-size:9px;background:#24170d;color:var(--gold2);border:1px solid #6b3b16;line-height:1}
+.coins{margin-left:auto;border:1px solid #8d4c16;border-radius:999px;padding:7px 11px;background:#1b1008;color:var(--gold2);font-weight:800;font-size:13px;white-space:nowrap}
+
+main{padding:18px 14px}
+h2{font-size:18px;margin:24px 0 11px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:linear-gradient(145deg,#1e1209,#120b07);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:12px}
+.stat{font-size:26px;font-weight:900;color:var(--gold2)}
+.label{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* ===== Баннер «Живое продвижение»: контрастный HUD ===== */
+.hero-banner{position:relative;padding:20px 18px 16px 22px;border:2px solid #ff9b28;border-radius:8px;
+  background:linear-gradient(150deg,#2a1405,#120b06 60%,#1a0d05);margin:14px 0;overflow:hidden;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace}
+.hero-banner:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,155,40,.07) 0 1px,transparent 1px 4px);pointer-events:none}
+.hero-banner:after{content:"";position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#ffd18a,transparent);opacity:.55;animation:hudscan 5s linear infinite;pointer-events:none}
+@keyframes hudscan{0%{top:0}100%{top:100%}}
+.hud-bar{position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#ffd18a,#ff9b28,#c25a09)}
+.corner{position:absolute;width:15px;height:15px;border:2px solid #ffd18a}
+.corner.tl{top:4px;left:4px;border-right:0;border-bottom:0}
+.corner.tr{top:4px;right:4px;border-left:0;border-bottom:0}
+.corner.bl{bottom:4px;left:4px;border-right:0;border-top:0}
+.corner.br{bottom:4px;right:4px;border-left:0;border-top:0}
+.hud-top{position:relative;display:flex;justify-content:space-between;gap:8px;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:#c9a274;margin-bottom:12px}
+.hud-top i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);margin-right:5px;vertical-align:middle}
+.hero-banner .tag{position:relative;display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#160b03;background:var(--gold);border-radius:3px;padding:3px 8px;font-weight:900;margin-bottom:10px}
+.hero-banner h1{position:relative;font-family:Inter,system-ui,sans-serif;font-size:27px;line-height:1.05;margin:0 0 10px;text-transform:uppercase;letter-spacing:-.5px;color:#ffe6c0}
+.hero-banner p{position:relative;font-family:Inter,system-ui,sans-serif;margin:0;color:#e6c8a4;font-size:13.5px;line-height:1.5}
+.hud-foot{position:relative;display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:10px;border-top:1px dashed #7a4419;font-size:9.5px;letter-spacing:1.2px;color:#b98c5d}
+.hud-foot .hud-live{color:#ff8d6b}
+.hud-foot .hud-ok{color:var(--ok)}
+
+/* ===== Блоки «Создать задание» / «Заработать монеты» ===== */
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 18px}
+.action-card{background:linear-gradient(145deg,#241407,#120b07);border:1px solid #744117;border-radius:18px;padding:14px}
+.action-card h3{margin:0 0 6px;font-size:15px;color:var(--gold2)}
+.action-card p{margin:0 0 12px;font-size:11px;color:var(--muted);line-height:1.35}
+.action-main{display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px;padding:12px 8px}
+.action-main .chev{font-size:10px;opacity:.85;transition:transform .35s ease}
+.action-card.open .action-main .chev{transform:rotate(180deg)}
+.action-options{max-height:0;opacity:0;overflow:hidden;transform:translateY(-8px);margin-top:0;
+  transition:max-height .42s cubic-bezier(.4,0,.2,1),opacity .3s ease,transform .35s ease,margin-top .3s ease}
+.action-card.open .action-options{max-height:320px;opacity:1;transform:none;margin-top:10px}
+.action-option{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;padding:10px 12px;
+  background:#211209;color:var(--gold2);border:1px solid #6b3b16;border-radius:11px;font-weight:800;font-size:12.5px;
+  opacity:0;transform:translateY(-6px);transition:opacity .28s ease,transform .3s ease}
+.action-option:last-child{margin-bottom:0}
+.action-card.open .action-option{opacity:1;transform:none}
+.action-card.open .action-option:nth-child(1){transition-delay:.06s}
+.action-card.open .action-option:nth-child(2){transition-delay:.13s}
+.action-card.open .action-option:nth-child(3){transition-delay:.2s}
+.action-option i{font-style:normal;color:#f0d1a9;font-size:11px;white-space:nowrap}
+
+/* ===== РУЛЕТКА (бесконечная, 0–9) ===== */
+.roulette{display:flex;align-items:center;gap:12px;padding:12px;min-height:88px}
+.reels{display:flex;gap:6px;flex:0 0 auto}
+.reel{width:46px;height:64px;border-radius:12px;border:1px solid #6b3b16;background:#0f0a06;overflow:hidden;position:relative}
+.reel:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#0f0a06dd,transparent 38%,transparent 62%,#0f0a06dd)}
+.strip{will-change:transform}
+.strip .cell{height:64px;display:grid;place-items:center;font-weight:900;font-size:20px;color:var(--gold2)}
+.reels.spin .strip{filter:blur(.8px)}
+.roul-side{flex:1;min-width:0}
+.roul-side button{padding:11px 10px;font-size:13px}
+.roul-side button:disabled{background:#3a2412;color:#8d7359;cursor:not-allowed}
+.roul-note{font-size:13px;font-size:10.5px;color:var(--muted);margin-top:7px;line-height:1.35}
+.roul-note b{color:var(--gold2)}
+.roul-win{color:var(--ok);font-weight:900}
+
+/* ===== ИГРА НА УДАЧУ (тот же размер, что у рулетки) ===== */
+.fortune{display:flex;align-items:center;gap:12px;padding:12px;min-height:88px}
+.gifts{display:flex;gap:6px;flex:0 0 auto}
+.gift{width:46px;height:64px;border-radius:12px;border:1px solid #6b3b16;padding:0;
+  background:linear-gradient(160deg,#20140a,#0f0a06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  transition:transform .18s ease,box-shadow .25s ease,border-color .25s ease}
+.gift .gift-face{font-size:21px;line-height:1;filter:drop-shadow(0 2px 4px #0008)}
+.gift .gift-val{font-size:9px;font-weight:900;color:var(--gold2);letter-spacing:.2px;min-height:11px}
+.gift:hover{transform:translateY(-3px)}
+.gift:active{transform:scale(.94)}
+.gift.round{animation:giftPulse 1s ease-in-out infinite}
+@keyframes giftPulse{0%,100%{box-shadow:0 0 0 0 #ff9b2800;border-color:#6b3b16}50%{box-shadow:0 0 0 4px #ff9b2833;border-color:#d9781c}}
+.gifts.shuffle .gift{animation:shake .34s ease-in-out infinite}
+.gifts.shuffle .gift:nth-child(2){animation-delay:.07s}
+.gifts.shuffle .gift:nth-child(3){animation-delay:.14s}
+@keyframes shake{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(-3px,-4px) rotate(-6deg)}75%{transform:translate(3px,-2px) rotate(6deg)}}
+.gift.win{border-color:#ffd18a;background:linear-gradient(160deg,#3a2109,#1c1006);box-shadow:0 0 16px #ff9b2866;animation:pop .5s ease}
+.gift.lose{opacity:.5;filter:grayscale(.4)}
+@keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+
+/* ===== Задания ===== */
+.task{border:1px solid var(--line);background:#150d08;border-radius:18px;padding:14px;margin:9px 0}
+.task-top{display:flex;justify-content:space-between;gap:10px}
+.task-title{font-weight:800}
+.reward{color:var(--gold2);font-weight:900;white-space:nowrap}
+.task small{display:block;color:var(--muted);margin:6px 0 4px;line-height:1.4}
+.customer{color:var(--gold2);font-size:11px;font-weight:800;margin-bottom:11px}
+.task-done{font-size:10.5px;color:var(--ok);margin-top:8px;line-height:1.4}
+.task-link{display:inline-block;margin:0 0 10px;font-size:11px;color:var(--gold2);text-decoration:none;border-bottom:1px dashed #8a4c1b}
+.chip{width:auto;display:inline-block;margin:0 0 10px;padding:7px 12px;border-radius:999px;font-size:12px;background:#24170d;color:var(--gold2);border:1px solid #6b3b16;cursor:pointer}
+.empty{padding:14px;text-align:center;color:var(--muted);font-size:12px;border:1px dashed #4a2a13;border-radius:14px}
+
+/* ===== Статистика ===== */
+.stat-block{border:1px solid var(--line);background:#150d08;border-radius:18px;padding:14px;margin-bottom:12px}
+.stat-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px;font-weight:800;color:var(--gold2);margin-bottom:8px}
+.stat-head span{font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap}
+.stat-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #382314}
+.stat-row:last-child{border-bottom:0}
+.stat-ico{width:32px;height:32px;flex:0 0 32px;border-radius:10px;display:grid;place-items:center;background:#24170d;border:1px solid #6b3b16;color:var(--gold2);font-weight:900}
+.stat-info{flex:1;min-width:0}
+.stat-name{font-size:12.5px;font-weight:800}
+.stat-bar{height:5px;border-radius:99px;background:#2a1a0e;margin-top:6px;overflow:hidden}
+.stat-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s ease}
+.stat-num{font-weight:900;color:var(--gold2);font-size:14px;white-space:nowrap}
+.stat-note{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.45}
+.stat-note b{color:#e8c396}
+
+/* ===== Рейтинг ===== */
+.rank{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid #382314}
+.rank:last-child{border-bottom:0}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#2c1a0e;border:1px solid #8a4c1b;color:var(--gold2);font-weight:900;flex:0 0 38px}
+.rank .name{flex:1}
+.rank .pts{color:var(--gold2);font-weight:800}
+.me{outline:1px solid #a95f20;border-radius:12px;padding:8px 10px;margin:3px -10px;background:#1d1108}
+
+/* ===== Профиль ===== */
+.profile-head{display:flex;align-items:center;gap:14px}
+.big-avatar{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:#2b170a;border:2px solid var(--gold);font-size:28px;font-weight:900;color:var(--gold2)}
+input,textarea,select{width:100%;background:#100a06;border:1px solid #613716;color:var(--text);border-radius:12px;padding:12px;outline:none;font-family:inherit;font-size:14px}
+label{display:block;color:var(--muted);font-size:12px;margin:10px 0 6px}
+.history-item{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #382314}
+.history-item:last-child{border-bottom:0}
+.history-icon{width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:grid;place-items:center;background:#24170d;border:1px solid #6b3b16;color:var(--gold2);font-weight:900}
+.history-body{flex:1;min-width:0}
+.history-title{font-size:13px;font-weight:800}
+.history-date{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.45}
+.history-date b{color:#e8c396}
+.history-amount{font-weight:900;white-space:nowrap}
+.history-amount.plus{color:var(--ok)}
+.history-amount.minus{color:#ff9b72}
+.account-balance{font-size:21px;font-weight:900;color:var(--gold2);margin-bottom:10px}
+.notice{padding:12px;border:1px solid #6b3b16;background:#1b1008;border-radius:14px;color:#d8b995;font-size:13px;line-height:1.45}
+
+
+/* ===== FUTURISTIC GAME 02 ===== */
+.future-game{position:relative;overflow:hidden;min-height:250px;padding:15px;background:radial-gradient(circle at 50% 42%,rgba(0,255,220,.12),transparent 31%),radial-gradient(circle at 15% 90%,rgba(255,155,40,.08),transparent 30%),linear-gradient(145deg,#071310,#08100e 55%,#0a0907);border-color:#18534d;box-shadow:inset 0 0 35px rgba(0,255,220,.035),0 0 25px rgba(0,255,220,.035)}
+.future-game:after{content:"";position:absolute;width:45%;height:1px;left:27.5%;top:0;background:linear-gradient(90deg,transparent,#52ffe5,transparent);animation:futureSweep 3.8s linear infinite;opacity:.8;pointer-events:none}
+@keyframes futureSweep{0%{transform:translateY(0);opacity:0}10%{opacity:.8}90%{opacity:.8}100%{transform:translateY(245px);opacity:0}}
+.fx-grid{position:absolute;inset:0;opacity:.18;background:linear-gradient(rgba(65,255,224,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(65,255,224,.16) 1px,transparent 1px);background-size:19px 19px;mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent)}
+.fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(78,255,228,.025) 4px);pointer-events:none}
+.fx-particles i{position:absolute;width:2px;height:2px;border-radius:50%;background:#61ffe8;box-shadow:0 0 8px #61ffe8;animation:particleFloat 3.5s ease-in-out infinite}
+.fx-particles i:nth-child(1){left:7%;top:24%;animation-delay:.1s}.fx-particles i:nth-child(2){left:18%;top:76%;animation-delay:1.1s}.fx-particles i:nth-child(3){left:31%;top:13%;animation-delay:1.8s}.fx-particles i:nth-child(4){left:47%;top:82%;animation-delay:.5s}.fx-particles i:nth-child(5){left:59%;top:18%;animation-delay:2.2s}.fx-particles i:nth-child(6){left:73%;top:72%;animation-delay:1.4s}.fx-particles i:nth-child(7){left:84%;top:27%;animation-delay:.8s}.fx-particles i:nth-child(8){left:92%;top:63%;animation-delay:2.6s}.fx-particles i:nth-child(9){left:39%;top:58%;animation-delay:1.9s}.fx-particles i:nth-child(10){left:67%;top:48%;animation-delay:2.9s}
+@keyframes particleFloat{0%,100%{transform:translate(0,0);opacity:.25}50%{transform:translate(7px,-11px);opacity:1}}
+.future-head,.future-footer,.future-sub{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.future-head{position:relative;font:800 8px/1.2 ui-monospace,SFMono-Regular,monospace;letter-spacing:1.3px;color:#6dbbb0}
+.dot-live{display:inline-block;width:5px;height:5px;border-radius:50%;background:#5fffe4;box-shadow:0 0 9px #5fffe4;margin-right:5px;animation:futurePulse 1.2s infinite}
+@keyframes futurePulse{50%{opacity:.35;transform:scale(.7)}}
+.future-readout{position:relative;text-align:center;padding:11px 8px 8px}
+.future-label{font:700 7px/1 ui-monospace,SFMono-Regular,monospace;letter-spacing:2.5px;color:#4e8f88;margin-bottom:7px}
+.future-digits{display:flex;justify-content:center;gap:8px}
+.future-digits span{position:relative;width:52px;height:63px;display:grid;place-items:center;border:1px solid #226d65;border-radius:8px;background:linear-gradient(145deg,#0b2521,#06100f);color:#b9fff2;font:900 38px/1 ui-monospace,SFMono-Regular,monospace;text-shadow:0 0 13px rgba(84,255,228,.75);box-shadow:inset 0 0 20px rgba(53,255,225,.055),0 0 12px rgba(43,255,220,.06);transition:.25s}
+.future-digits span:after{content:"";position:absolute;left:7px;right:7px;top:50%;height:1px;background:#61ffe822;box-shadow:0 0 6px #61ffe833}
+.future-game.running .future-digits span{animation:digitGlitch .16s steps(2,end) infinite}
+.future-game.success .future-digits span{border-color:#7fffe9;box-shadow:0 0 20px rgba(73,255,224,.24),inset 0 0 18px rgba(73,255,224,.09)}
+@keyframes digitGlitch{50%{transform:translateX(1px);filter:blur(.4px)}}
+.future-meter{height:3px;margin:9px 20px 7px;border-radius:99px;background:#12332f;overflow:hidden}
+.future-meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff8b2d,#5fffe4);box-shadow:0 0 10px #5fffe4;transition:width .25s}
+.future-sub{font:700 7px/1.2 ui-monospace,SFMono-Regular,monospace;letter-spacing:1px;color:#477e78}
+.future-sub span:nth-child(2){color:#ffb467}
+.future-controls{position:relative;display:flex;align-items:center;gap:10px}
+.future-controls button{flex:0 0 42%;background:linear-gradient(135deg,#a9fff1,#43d9c2);color:#03100e;border:1px solid #74ffe9;box-shadow:0 0 16px rgba(67,217,194,.12);font-size:11px;letter-spacing:1px}
+.future-controls button:disabled{opacity:.55}
+.future-note{flex:1;color:#6fa59d;font:700 8.5px/1.35 ui-monospace,SFMono-Regular,monospace}
+.future-footer{position:relative;margin-top:11px;padding-top:9px;border-top:1px solid #173e39;font:700 6.5px/1 ui-monospace,SFMono-Regular,monospace;letter-spacing:1px;color:#356d66}
+.future-game.running .future-meter i{animation:meterPulse .65s ease-in-out infinite alternate}
+@keyframes meterPulse{to{filter:brightness(1.5)}}
+@media(max-width:390px){.future-digits span{width:45px;height:58px;font-size:33px}.future-controls{flex-direction:column;align-items:stretch}.future-controls button{width:100%}}
+
+
+/* ===== DPC SPACE — site-color motion layer ===== */
+.future-game{
+  --space-green:#59f5c7;
+  --space-orange:#ff9a3d;
+  background:
+    radial-gradient(circle at 50% 38%,rgba(89,245,199,.15),transparent 28%),
+    radial-gradient(circle at 12% 18%,rgba(255,154,61,.09),transparent 23%),
+    linear-gradient(145deg,#06120f,#0a1714 55%,#0c100e);
+  border-color:#235e50;
+}
+.future-game:before{
+  content:"";position:absolute;inset:6px;border:1px solid rgba(89,245,199,.16);
+  pointer-events:none;animation:spaceFrame 2.8s ease-in-out infinite alternate;
+}
+.future-game:after{
+  background:linear-gradient(90deg,transparent,var(--space-orange),var(--space-green),transparent);
+}
+.future-game .fx-grid{
+  opacity:.22;
+  background:linear-gradient(rgba(89,245,199,.13) 1px,transparent 1px),
+             linear-gradient(90deg,rgba(89,245,199,.13) 1px,transparent 1px);
+  background-size:18px 18px;
+  animation:spaceGrid 9s linear infinite;
+}
+.future-game .fx-scan{
+  background:
+    linear-gradient(90deg,transparent 0 49%,rgba(89,245,199,.05) 50%,transparent 51%),
+    repeating-linear-gradient(0deg,transparent 0 4px,rgba(255,154,61,.025) 5px);
+  animation:spaceScan 4s linear infinite;
+}
+.future-game .fx-particles i{
+  width:3px;height:3px;background:var(--space-green);
+  box-shadow:0 0 9px var(--space-green),0 0 18px rgba(89,245,199,.35);
+}
+.future-game .fx-particles i:nth-child(3n){
+  background:var(--space-orange);box-shadow:0 0 9px var(--space-orange);
+}
+.future-game .future-head{text-shadow:0 0 9px rgba(89,245,199,.35)}
+.future-game .future-digits span{
+  border-color:#276c5b;
+  background:linear-gradient(135deg,rgba(89,245,199,.05),transparent 45%),linear-gradient(145deg,#0b2721,#06110e);
+  box-shadow:inset 0 0 22px rgba(89,245,199,.06),0 0 15px rgba(89,245,199,.06);
+}
+.future-game .future-digits span:nth-child(2){animation:spaceCorePulse 2.2s ease-in-out infinite}
+.future-game .future-meter i{background:linear-gradient(90deg,var(--space-orange),var(--space-green))}
+.future-game .future-controls button{
+  background:linear-gradient(135deg,#b5ffe9,#55e5bf);
+  border-color:#6ff8d5;box-shadow:0 0 20px rgba(89,245,199,.13);
+  position:relative;overflow:hidden;
+}
+.future-game .future-controls button:before{
+  content:"";position:absolute;top:-30%;left:-25%;width:20%;height:160%;
+  background:rgba(255,255,255,.42);transform:skewX(-18deg);animation:buttonSweep 2.8s linear infinite;
+}
+.future-game .future-footer span{animation:footerBlink 2.5s ease-in-out infinite}
+.future-game .future-footer span:nth-child(2){animation-delay:.55s}
+.future-game .future-footer span:nth-child(3){animation-delay:1.1s}
+.future-game.running:before{animation:runningFrame .9s ease-in-out infinite alternate}
+.future-game.success .future-digits span{animation:successPop .45s ease-out both}
+.future-game.success .future-digits span:nth-child(2){animation-delay:.08s}
+.future-game.success .future-digits span:nth-child(3){animation-delay:.16s}
+@keyframes spaceFrame{to{box-shadow:inset 0 0 26px rgba(89,245,199,.10)}}
+@keyframes spaceGrid{to{background-position:0 18px,18px 0}}
+@keyframes spaceScan{from{transform:translateY(-10px)}to{transform:translateY(10px)}}
+@keyframes spaceCorePulse{50%{box-shadow:inset 0 0 28px rgba(89,245,199,.13),0 0 24px rgba(89,245,199,.14)}}
+@keyframes buttonSweep{0%{left:-30%}55%,100%{left:130%}}
+@keyframes footerBlink{50%{opacity:.38}}
+@keyframes runningFrame{to{box-shadow:inset 0 0 28px rgba(89,245,199,.11)}}
+@keyframes successPop{0%{transform:scale(.92);filter:brightness(1)}55%{transform:scale(1.06);filter:brightness(1.7)}100%{transform:scale(1);filter:brightness(1.15)}}
+
+
+/* ===== DPC SPACE WARM EDITION ===== */
+.future-game{
+  --space-warm:#ffb15a;
+  --space-hot:#ff7a3d;
+  --space-gold:#ffd27a;
+  --space-dark:#17100b;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,177,90,.18),transparent 28%),
+    radial-gradient(circle at 12% 18%,rgba(255,122,61,.12),transparent 24%),
+    radial-gradient(circle at 90% 82%,rgba(255,210,122,.08),transparent 22%),
+    linear-gradient(145deg,#120b07,#1a100a 52%,#100b08);
+  border-color:#74401f;
+  box-shadow:inset 0 0 45px rgba(255,145,65,.055),0 0 28px rgba(255,122,61,.08);
+}
+.future-game:before{
+  content:"";position:absolute;inset:5px;border:1px solid rgba(255,177,90,.22);
+  pointer-events:none;animation:warmFrame 2.4s ease-in-out infinite alternate;
+}
+.future-game:after{
+  background:linear-gradient(90deg,transparent,var(--space-hot),var(--space-gold),transparent);
+  height:2px;
+}
+.future-game .fx-grid{
+  opacity:.22;
+  background:linear-gradient(rgba(255,177,90,.12) 1px,transparent 1px),
+             linear-gradient(90deg,rgba(255,177,90,.12) 1px,transparent 1px);
+  background-size:18px 18px;
+  animation:warmGrid 7s linear infinite;
+}
+.future-game .fx-scan{
+  background:
+    linear-gradient(90deg,transparent 0 49%,rgba(255,177,90,.055) 50%,transparent 51%),
+    repeating-linear-gradient(0deg,transparent 0 4px,rgba(255,122,61,.035) 5px);
+  animation:warmScan 3.2s ease-in-out infinite alternate;
+}
+.future-game .fx-particles i{
+  width:3px;height:3px;background:var(--space-warm);
+  box-shadow:0 0 9px var(--space-warm),0 0 18px rgba(255,177,90,.4);
+}
+.future-game .fx-particles i:nth-child(3n),
+.future-game .fx-particles i:nth-child(7n){
+  background:var(--space-hot);box-shadow:0 0 10px var(--space-hot),0 0 18px rgba(255,122,61,.35);
+}
+.future-game .future-head{
+  color:#e8ae76;text-shadow:0 0 10px rgba(255,177,90,.28);
+  font-size:10px;letter-spacing:1.5px;
+}
+.future-game .future-label{
+  color:#c78955;font-size:9px;letter-spacing:2.8px;
+}
+.future-game .future-digits{gap:10px}
+.future-game .future-digits span{
+  width:58px;height:68px;
+  border-color:#7a4728;
+  background:linear-gradient(135deg,rgba(255,177,90,.07),transparent 45%),linear-gradient(145deg,#2a160d,#120a07);
+  color:#ffe2bd;
+  font-size:42px;
+  text-shadow:0 0 15px rgba(255,177,90,.8);
+  box-shadow:inset 0 0 24px rgba(255,145,65,.07),0 0 16px rgba(255,122,61,.08);
+}
+.future-game .future-digits span:after{background:rgba(255,177,90,.16)}
+.future-game .future-digits span:nth-child(2){animation:warmCorePulse 1.8s ease-in-out infinite}
+.future-game .future-meter{background:#392116;height:4px}
+.future-game .future-meter i{
+  background:linear-gradient(90deg,var(--space-hot),var(--space-warm),var(--space-gold));
+  box-shadow:0 0 12px var(--space-warm);
+}
+.future-game .future-sub{
+  color:#b67b4d;font-size:9px;letter-spacing:1.2px;
+}
+.future-game .future-sub span:nth-child(2){color:#ffbd70}
+.future-game .future-controls{gap:12px}
+.future-game .future-controls button{
+  min-height:42px;
+  background:linear-gradient(135deg,#ffd18a,#ff9952);
+  color:#241007;
+  border-color:#ffc477;
+  box-shadow:0 0 22px rgba(255,145,65,.18);
+  font-size:13px;font-weight:900;letter-spacing:1.2px;
+}
+.future-game .future-controls button:before{
+  background:rgba(255,239,205,.5);
+  animation:warmButtonSweep 2.2s linear infinite;
+}
+.future-game .future-note{
+  color:#d19a68;font-size:10px;line-height:1.45;
+}
+.future-game .future-footer{
+  border-top-color:#4a2919;
+  color:#9c6740;font-size:8px;letter-spacing:1.1px;
+}
+.future-game .future-footer span{animation:warmBlink 2s ease-in-out infinite}
+.future-game .future-footer span:nth-child(2){animation-delay:.45s}
+.future-game .future-footer span:nth-child(3){animation-delay:.9s}
+.future-game.running .future-digits span{
+  animation:warmDigitShake .13s steps(2,end) infinite;
+}
+.future-game.running .future-meter i{animation:warmMeter 0.5s ease-in-out infinite alternate}
+.future-game.success .future-digits span{animation:warmSuccess .5s ease-out both}
+.future-game.success .future-digits span:nth-child(2){animation-delay:.08s}
+.future-game.success .future-digits span:nth-child(3){animation-delay:.16s}
+@keyframes warmFrame{to{box-shadow:inset 0 0 35px rgba(255,145,65,.13)}}
+@keyframes warmGrid{to{background-position:0 18px,18px 0}}
+@keyframes warmScan{from{transform:translateY(-12px)}to{transform:translateY(12px)}}
+@keyframes warmCorePulse{
+  50%{box-shadow:inset 0 0 32px rgba(255,177,90,.15),0 0 30px rgba(255,122,61,.18)}
+}
+@keyframes warmButtonSweep{0%{left:-30%}60%,100%{left:135%}}
+@keyframes warmBlink{50%{opacity:.35}}
+@keyframes warmMeter{to{filter:brightness(1.45)}}
+@keyframes warmDigitShake{50%{transform:translateX(1px) skewX(-.5deg);filter:brightness(1.35)}}
+@keyframes warmSuccess{
+  0%{transform:scale(.9);filter:brightness(1)}
+  45%{transform:scale(1.09);filter:brightness(1.9)}
+  100%{transform:scale(1);filter:brightness(1.15)}
+}
+@media(max-width:390px){
+  .future-game .future-digits span{width:48px;height:61px;font-size:36px}
+  .future-game .future-head{font-size:9px}
+  .future-game .future-note{font-size:9px}
+}
+
+
+
+/* ===== DROP SPACE — dynamic digits + flight ===== */
+.drop-space-dynamic .future-digits span,
+.future-game.running .future-digits span{
+  transform-style:preserve-3d;
+  perspective:500px;
+  animation:dropDigitSpin .34s linear infinite;
+}
+.future-game.running .future-digits span:nth-child(1){animation-delay:0s}
+.future-game.running .future-digits span:nth-child(2){animation-delay:-.11s}
+.future-game.running .future-digits span:nth-child(3){animation-delay:-.22s}
+.future-game.running .future-digits span:before{
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 35%,rgba(255,205,130,.14) 50%,transparent 65%);
+  animation:digitGlint .42s linear infinite;
+  pointer-events:none;
+}
+.future-game.running .space-ship{
+  animation:dropShipFlight 1.25s cubic-bezier(.2,.75,.25,1) infinite;
+}
+.future-game.running .ship-flame{
+  animation:dropFlame .08s steps(2,end) infinite;
+}
+.future-game.success .space-ship{
+  animation:dropShipFinish .75s ease-out forwards;
+}
+.future-game.success .future-digits span{
+  animation:dropResult .45s ease-out both;
+}
+@keyframes dropDigitSpin{
+  0%{transform:rotateX(0deg) rotateY(0deg) translateY(0);filter:brightness(1)}
+  25%{transform:rotateX(88deg) rotateY(8deg) translateY(-1px);filter:brightness(1.35)}
+  50%{transform:rotateX(180deg) rotateY(0deg) translateY(0);filter:brightness(1.65)}
+  75%{transform:rotateX(272deg) rotateY(-8deg) translateY(1px);filter:brightness(1.25)}
+  100%{transform:rotateX(360deg) rotateY(0deg) translateY(0);filter:brightness(1)}
+}
+@keyframes digitGlint{
+  from{transform:translateY(-100%);opacity:0}
+  35%{opacity:.8}
+  to{transform:translateY(100%);opacity:0}
+}
+@keyframes dropShipFlight{
+  0%{left:-55px;top:16px;transform:rotate(2deg) scale(.9)}
+  18%{top:5px;transform:rotate(-3deg) scale(1)}
+  40%{top:20px;transform:rotate(2deg)}
+  63%{top:7px;transform:rotate(-2deg)}
+  82%{top:15px;transform:rotate(2deg)}
+  100%{left:calc(100% + 18px);top:9px;transform:rotate(-1deg) scale(1.04)}
+}
+@keyframes dropFlame{
+  50%{width:13px;opacity:.55;filter:blur(1px)}
+}
+@keyframes dropShipFinish{
+  0%{left:45%;transform:scale(1)}
+  100%{left:76%;top:2px;transform:scale(1.12) rotate(-4deg)}
+}
+@keyframes dropResult{
+  0%{transform:scale(.88) rotateX(0);filter:brightness(1)}
+  45%{transform:scale(1.1) rotateX(0);filter:brightness(1.9)}
+  100%{transform:scale(1);filter:brightness(1.2)}
+}
+
+/* ===== DPC SPACE FLIGHT MODE ===== */
+.future-game .future-controls{
+  display:block;
+  margin-top:8px;
+}
+.flight-btn{
+  width:100%;
+  min-height:48px!important;
+  font-size:16px!important;
+  letter-spacing:2px!important;
+  border-radius:10px!important;
+}
+.flight-status{
+  position:relative;
+  margin-top:9px;
+  padding:7px 10px;
+  text-align:center;
+  color:#d6a16d;
+  font-size:12px;
+  line-height:1.35;
+  letter-spacing:.25px;
+  border:1px solid rgba(255,177,90,.16);
+  background:rgba(255,145,65,.035);
+  border-radius:7px;
+}
+.space-flight-lane{
+  position:relative;
+  height:46px;
+  margin:3px 8px 3px;
+  overflow:hidden;
+  border-top:1px solid rgba(255,177,90,.08);
+  border-bottom:1px solid rgba(255,177,90,.08);
+  background:linear-gradient(90deg,transparent,rgba(255,145,65,.025),transparent);
+}
+.space-stars,.space-stars:before,.space-stars:after{
+  position:absolute;inset:0;content:"";
+  background-image:
+    radial-gradient(circle,rgba(255,224,178,.8) 0 1px,transparent 1.5px),
+    radial-gradient(circle,rgba(255,145,65,.55) 0 1px,transparent 1.5px);
+  background-size:43px 23px,71px 31px;
+  background-position:0 0,19px 8px;
+  animation:starsMove 2.5s linear infinite;
+}
+.space-stars:before{transform:translateX(30px);opacity:.45;animation-duration:1.7s}
+.space-stars:after{transform:translateX(70px);opacity:.3;animation-duration:3.2s}
+.space-planet{
+  position:absolute;border-radius:50%;opacity:.55;filter:blur(.2px);
+  border:1px solid rgba(255,190,110,.28);
+}
+.planet-a{width:15px;height:15px;right:17%;top:8px;background:radial-gradient(circle at 35% 30%,#ffd99b,#a9572e 62%,#3a160d)}
+.planet-b{width:7px;height:7px;right:35%;bottom:6px;background:#ffb15a;box-shadow:0 0 10px rgba(255,177,90,.45)}
+.space-ship{
+  position:absolute;left:-55px;top:13px;width:46px;height:21px;
+  background:linear-gradient(135deg,#ffe0aa,#ff9b4d 65%,#8f3c1e);
+  clip-path:polygon(0 50%,28% 16%,73% 0,100% 50%,73% 100%,28% 84%);
+  filter:drop-shadow(0 0 5px rgba(255,170,90,.75));
+  transition:none;
+}
+.space-ship:before{
+  content:"";position:absolute;left:15px;top:6px;width:12px;height:8px;border-radius:50%;
+  background:#4b1c12;border:1px solid #ffd69c;box-shadow:0 0 6px #ffd69c;
+}
+.ship-window{display:none}
+.ship-flame{
+  position:absolute;left:-13px;top:7px;width:17px;height:7px;
+  border-radius:50% 0 0 50%;
+  background:linear-gradient(90deg,transparent,#ff6d2e,#ffd47a);
+  filter:blur(.4px);animation:flameFlicker .09s steps(2,end) infinite;
+}
+.future-game.running .space-ship{
+  animation:shipFlight 1.65s cubic-bezier(.25,.8,.25,1) infinite;
+}
+.future-game.running .space-flight-lane{
+  box-shadow:inset 0 0 18px rgba(255,145,65,.09);
+}
+.future-game.success .space-ship{
+  animation:shipFinish .8s ease-out forwards;
+}
+@keyframes starsMove{from{background-position:0 0,19px 8px}to{background-position:-86px 0,-142px 8px}}
+@keyframes shipFlight{
+  0%{left:-55px;transform:translateY(7px) rotate(1deg)}
+  25%{transform:translateY(-5px) rotate(-1deg)}
+  50%{left:46%;transform:translateY(3px) rotate(1deg)}
+  75%{transform:translateY(-6px) rotate(-1deg)}
+  100%{left:calc(100% + 20px);transform:translateY(2px) rotate(1deg)}
+}
+@keyframes shipFinish{
+  to{left:68%;transform:translateY(-10px) scale(1.12)}
+}
+@keyframes flameFlicker{
+  50%{width:10px;opacity:.65}
+}
+.genre-field select{
+  width:100%;
+  min-height:40px;
+}
+@media(max-width:390px){
+  .flight-btn{min-height:46px!important;font-size:15px!important}
+  .flight-status{font-size:11px}
+}
+
+
+/* ===== FINAL DROP SPACE FIX ===== */
+#fortuneBtn.flight-btn{min-height:50px}
+.future-game.running .space-flight-lane{display:block;overflow:hidden}
+.future-game.running .space-ship{
+  display:block!important;
+  animation:dropSpaceShipLoop 1.5s linear infinite!important;
+  will-change:left,top,transform;
+}
+.future-game.running .ship-flame{
+  display:block!important;
+  animation:dropSpaceFlame .09s steps(2,end) infinite!important;
+}
+@keyframes dropSpaceShipLoop{
+  0%{left:-58px;top:15px;transform:rotate(2deg) scale(.92)}
+  15%{top:6px;transform:rotate(-2deg) scale(1)}
+  32%{top:20px;transform:rotate(2deg)}
+  50%{top:8px;transform:rotate(-2deg)}
+  68%{top:18px;transform:rotate(2deg)}
+  84%{top:5px;transform:rotate(-1deg)}
+  100%{left:calc(100% + 22px);top:13px;transform:rotate(1deg) scale(1.03)}
+}
+@keyframes dropSpaceFlame{
+  0%{width:12px;opacity:.55}
+  50%{width:20px;opacity:1}
+  100%{width:10px;opacity:.5}
+}
+
+/* ===== Кнопки / навигация ===== */
+button{border:0;color:#160b03;background:linear-gradient(135deg,#ffb34e,#ff7d16);font-weight:900;border-radius:12px;padding:11px 14px;cursor:pointer;width:100%;font-family:inherit;font-size:14px}
+button.secondary{background:#24170d;color:var(--gold2);border:1px solid #6b3b16}
+button.ghost{background:transparent;color:var(--gold2);border:1px solid #5d3517}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.task-subtypes{display:grid;grid-template-columns:1fr;gap:7px;margin-top:6px}
+.sub-option{margin:0;padding:10px 12px;border:1px solid #5d3517;border-radius:12px;background:#100a06;color:#d8b995;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:9px}
+.sub-option:has(input:checked){border-color:#d9781c;background:#211209;color:#ffd18a}
+.sub-option input{width:auto;accent-color:#ff8a20;margin:0}
+.view{display:none}.view.active{display:block}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(4,1fr);background:#100a06ee;backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:10}
+nav button{background:transparent;color:#a88a6b;padding:8px 2px;font-size:11px;width:100%}
+nav button.active{color:var(--gold2)}
+nav span{display:block;font-size:18px;margin-bottom:2px}
+
+/* ===== Модалки и тост ===== */
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;z-index:20}
+.modal.show{display:flex}
+.sheet{width:min(520px,100%);margin:auto 0 0;background:#160d07;border:1px solid #744117;border-radius:22px 22px 0 0;padding:20px;max-height:92vh;overflow:auto}
+.sheet h3{margin:0 0 6px}
+.close{background:#2a190e;color:var(--gold2)}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(20px);opacity:0;background:#f4c079;color:#1b0d04;padding:10px 14px;border-radius:12px;font-weight:800;z-index:30;transition:.25s;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+@media(min-width:700px){body{padding:20px}.app{border:1px solid #3b2412;border-radius:28px;overflow:hidden;box-shadow:0 20px 80px #000}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="live">
+      <span class="pulse"></span>
+      <span>
+        <span class="live-num" id="usersCount">16&nbsp;148</span>
+        <span class="live-cap">пользователей <b id="usersToday">+68 сегодня</b></span>
+      </span>
+    </div>
+    <div class="clock"><b id="clockTime">20:55:43</b><span id="clockDate">25.09.2026</span></div>
+    <div class="sw">
+      <span class="sw-time" id="swTime">00:00</span>
+      <button id="swToggle" title="Старт/пауза">▶</button>
+      <button id="swReset" title="Сброс">↺</button>
+    </div>
+    <div class="coins"><span id="balance">1534</span> DPC</div>
+  </header>
+
+  <main>
+    <!-- ===================== ГЛАВНАЯ ===================== -->
+    <section id="view-home" class="view">
+      <div class="hero-banner">
+        <div class="hud-bar"></div>
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <div class="hud-top">
+          <span><i></i>CH-01 · LIVE</span>
+          <span>STATUS: ACTIVE</span>
+          <span>SIG ▮▮▮▯</span>
+        </div>
+        <span class="tag">Audio Channel Records × DPC</span>
+        <h1>Живое продвижение для музыкантов</h1>
+        <p>Получайте лайки, подписчиков, друзей, комментарии и репосты от реальных пользователей. Выполняйте задания, зарабатывайте Dropcoins и запускайте свои заказы.</p>
+        <div class="hud-foot">
+          <span>▲ <b id="hudUsers">16&nbsp;148</b></span>
+          <span>◆ 1 341</span>
+          <span class="hud-ok">◉ 24/7</span>
+          <span class="hud-live">● REC</span>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <div class="action-card" id="cardCreate">
+          <h3>Создать задание</h3>
+          <p>Запустите продвижение своей музыки</p>
+          <button class="action-main" onclick="toggleActions(&#39;cardCreate&#39;)">Выбрать тип задания <span class="chev">▾</span></button>
+          <div class="action-options">
+            <button class="action-option" onclick="openTaskForm(&#39;repost&#39;)">↗ Репост <i>1 DPC</i></button>
+            <button class="action-option" onclick="openTaskForm(&#39;comment&#39;)">💬 Комментарий <i>3 DPC</i></button>
+            <button class="action-option" onclick="openTaskForm(&#39;subscribe&#39;)">＋ Подписка <i>5 DPC</i></button>
+          </div>
+        </div>
+        <div class="action-card" id="cardEarn">
+          <h3>Заработать монеты</h3>
+          <p>Выполняйте задания и получайте DPC</p>
+          <button class="action-main" onclick="toggleActions(&#39;cardEarn&#39;)">Выбрать тип задания <span class="chev">▾</span></button>
+          <div class="action-options">
+            <button class="action-option" onclick="filterTasks(&#39;repost&#39;)">↗ Репост <i>1 DPC</i></button>
+            <button class="action-option" onclick="filterTasks(&#39;comment&#39;)">💬 Комментарий <i>3 DPC</i></button>
+            <button class="action-option" onclick="filterTasks(&#39;subscribe&#39;)">＋ Подписка <i>5 DPC</i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-bottom:12px">
+        <div class="card" style="margin:0"><div class="stat" id="earned">1549</div><div class="label">заработано DPC</div></div>
+        <div class="card" style="margin:0"><div class="stat" id="done">38</div><div class="label">заданий выполнено</div></div>
+      </div>
+
+      <h2>Рулетка DPC</h2>
+      <div class="card roulette">
+        <div class="reels" id="reels">
+          <div class="reel"><div class="strip" id="reel1" style="transition: none; transform: translateY(0px);"><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div></div></div>
+          <div class="reel"><div class="strip" id="reel2" style="transition: none; transform: translateY(0px);"><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div></div></div>
+          <div class="reel"><div class="strip" id="reel3" style="transition: none; transform: translateY(0px);"><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div><div class="cell">0</div><div class="cell">1</div><div class="cell">2</div><div class="cell">3</div><div class="cell">4</div><div class="cell">5</div><div class="cell">6</div><div class="cell">7</div><div class="cell">8</div><div class="cell">9</div></div></div>
+        </div>
+        <div class="roul-side">
+          <button id="spinBtn" onclick="spin()">Крутить</button>
+          <div class="roul-note" id="spinNote">Выпало <b>0 0 0</b> — три одинаковых! <span class="roul-win">+1 DPC</span>.</div>
+        </div>
+      </div>
+
+      <h2>Drop Space</h2>
+      <div class="card fortune future-game" id="fortuneGame">
+        <div class="fx-grid"></div><div class="fx-scan"></div>
+        <div class="space-flight-lane" aria-hidden="true">
+          <div class="space-stars"></div>
+          <div class="space-planet planet-a"></div>
+          <div class="space-planet planet-b"></div>
+          <div class="space-ship" id="spaceShip"><span class="ship-window"></span><span class="ship-flame"></span></div>
+        </div>
+        <div class="fx-particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="future-head"><span><b class="dot-live"></b>DROP SPACE // CORE-02</span><span id="fortuneHour">SYNC 53:25</span></div>
+        <div class="future-readout">
+          <div class="future-label">DPC SPACE / HOURLY</div>
+          <div class="future-digits" id="fortuneDigits"><span>0</span><span>3</span><span>0</span></div>
+          <div class="future-meter"><i id="fortuneMeter" style="width: 0%;"></i></div>
+          <div class="future-sub"><span>0–9</span><span id="fortuneState">STANDBY</span><span>3 CHANNELS</span></div>
+        </div>
+        <div class="future-controls">
+          <button id="fortuneBtn" class="flight-btn" onclick="pickGift(-1)">ПОЛЁТ</button>
+        </div>
+        <div class="flight-status" id="fortuneNote">Результат <b>0 3 0</b> — две одинаковых · <span class="roul-win">+1 DPC</span></div>
+        <div class="future-footer"><span>◈ DPC SPACE / 60 MIN</span><span>◌ DIRECT EXCHANGE</span><span>⌁ DPC SIGNAL</span></div>
+      </div>
+
+      <h2>Доступные задания</h2>
+      <div id="filterChip" class="chip" style="display:none" onclick="clearFilter()"></div>
+      <div id="taskList"><div class="task"><div class="task-top"><div class="task-title">м</div><div class="reward">+1 DPC</div></div><small>Комментарии · https://vk.ru/publicaudiochannel</small><div class="customer">Заказчик: Audio Channel</div><button onclick="doTask(0)">Выполнить снова</button><div class="task-done">✓ Выполнено 25.09.2026, 15:07:58 · исполнитель: DropUser · всего выполнений: 4</div></div><div class="task"><div class="task-top"><div class="task-title">Перейти на страницу релиза</div><div class="reward">+1 DPC</div></div><small>Комментарии · Открыть ссылку и подтвердить выполнение</small><div class="customer">Заказчик: Audio Channel</div><button onclick="doTask(1)">Выполнить снова</button><div class="task-done">✓ Выполнено 25.09.2026, 15:07:57 · исполнитель: DropUser · всего выполнений: 4</div></div><div class="task"><div class="task-top"><div class="task-title">Оставить комментарий</div><div class="reward">+3 DPC</div></div><small>Комментарии · Комментарий по правилам задания</small><div class="customer">Заказчик: Audio Channel</div><button onclick="doTask(2)">Выполнить снова</button><div class="task-done">✓ Выполнено 25.09.2026, 15:25:07 · исполнитель: DropUser · всего выполнений: 1</div></div><div class="task"><div class="task-top"><div class="task-title">Поделиться публикацией</div><div class="reward">+1 DPC</div></div><small>Комментарии · Репост/поделиться — только там, где это разрешено правилами площадки</small><div class="customer">Заказчик: Audio Channel</div><button onclick="doTask(3)">Выполнить снова</button><div class="task-done">✓ Выполнено 25.09.2026, 15:25:09 · исполнитель: DropUser · всего выполнений: 1</div></div></div>
+    </section>
+
+    <!-- ===================== СТАТИСТИКА ===================== -->
+    <section id="view-stats" class="view active">
+      <h2>Статистика</h2>
+      <div class="grid" style="margin-bottom:12px">
+        <div class="card" style="margin:0"><div class="stat" id="statDoneTotal">10</div><div class="label">выполнено вами</div></div>
+        <div class="card" style="margin:0"><div class="stat" id="statRecvTotal">156</div><div class="label">выполнили ваши задания</div></div>
+      </div>
+      <div class="card" style="margin-bottom:12px"><div class="stat" id="statSpent">452 DPC</div><div class="label">потрачено на свои задания</div></div>
+
+      <div class="stat-block">
+        <div class="stat-head">Что выполнено вами <span id="doneBreak">10 шт.</span></div>
+        <div id="myDone"><div class="stat-row"><div class="stat-ico">↗</div><div class="stat-info"><div class="stat-name">Репост</div><div class="stat-bar"><i style="width:100%"></i></div></div><div class="stat-num">7 шт.</div></div><div class="stat-row"><div class="stat-ico">💬</div><div class="stat-info"><div class="stat-name">Комментарий</div><div class="stat-bar"><i style="width:29%"></i></div></div><div class="stat-num">2 шт.</div></div><div class="stat-row"><div class="stat-ico">＋</div><div class="stat-info"><div class="stat-name">Подписка</div><div class="stat-bar"><i style="width:14%"></i></div></div><div class="stat-num">1 шт.</div></div></div>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-head">Ваши задания и кто их выполнил <span id="myTasksBreak">4 заданий</span></div>
+        <div id="myTasksStats"><div class="stat-row"><div class="stat-ico">💬</div><div class="stat-info"><div class="stat-name">Моя семья станет богатая в течении этого года</div><div class="stat-note">Комментарий · 3 DPC за действие · заказчик: <b>DropUser</b> · создано: <b>25.09.2026, 15:24:38</b></div><div class="stat-note">последние исполнители: MaxDrop — 25.09.2026, 20:55:40 · Beats_M — 25.09.2026, 20:54:55 · AudioFan — 25.09.2026, 20:54:10</div></div><div class="stat-num">20</div></div><div class="stat-row"><div class="stat-ico">↗</div><div class="stat-info"><div class="stat-name">Репост нового релиза</div><div class="stat-note">Репост · 1 DPC за действие · заказчик: <b>DropUser</b> · создано: <b>23.09.2026, 14:17:45</b></div><div class="stat-note">последние исполнители: MaxDrop — 25.09.2026, 16:33:09 · AudioFan — 25.09.2026, 16:32:09 · AudioFan — 25.09.2026, 16:28:09</div></div><div class="stat-num">48</div></div><div class="stat-row"><div class="stat-ico">💬</div><div class="stat-info"><div class="stat-name">Комментарий под треком</div><div class="stat-note">Комментарий · 3 DPC за действие · заказчик: <b>DropUser</b> · создано: <b>21.09.2026, 14:17:45</b></div><div class="stat-note">последние исполнители: Kirill_Ph — 25.09.2026, 16:26:09 · Kirill_Ph — 25.09.2026, 16:18:09 · MaxDrop — 25.09.2026, 16:10:09</div></div><div class="stat-num">48</div></div><div class="stat-row"><div class="stat-ico">＋</div><div class="stat-info"><div class="stat-name">Подписка на канал</div><div class="stat-note">Подписка · 5 DPC за действие · заказчик: <b>DropUser</b> · создано: <b>21.09.2026, 14:17:45</b></div><div class="stat-note">последние исполнители: Dmitry — 25.09.2026, 16:30:09 · Beats_M — 25.09.2026, 16:29:09 · LenaWave — 25.09.2026, 16:22:09</div></div><div class="stat-num">40</div></div></div>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-head">Выиграно в рулетке <span id="statRoulSpins">спинов: 19</span></div>
+        <div class="stat-row">
+          <div class="stat-ico">🎰</div>
+          <div class="stat-info">
+            <div class="stat-name">Drop Space</div>
+            <div class="stat-note" id="statRoulBest">лучший выигрыш: 300 DPC</div>
+          </div>
+          <div class="stat-num" id="statRoul">691 DPC</div>
+        </div>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-head">Drop Space <span id="statFortTries">попыток: 36</span></div>
+        <div class="stat-row">
+          <div class="stat-ico">🎁</div>
+          <div class="stat-info">
+            <div class="stat-name">DPC Space</div>
+            <div class="stat-note" id="statFortBest">лучший приз: 300 DPC</div>
+          </div>
+          <div class="stat-num" id="statFort">1346 DPC</div>
+        </div>
+      </div>
+
+      <h2>Рейтинг активности</h2>
+      <div class="stat-block"><div id="ranking"><div class="rank me"><div class="avatar">D</div><div class="name">1. DropUser</div><div class="pts">1549 DPC</div></div><div class="rank"><div class="avatar">A</div><div class="name">2. AudioFan</div><div class="pts">128 DPC</div></div><div class="rank"><div class="avatar">M</div><div class="name">3. MaxDrop</div><div class="pts">104 DPC</div></div><div class="rank"><div class="avatar">L</div><div class="name">4. LenaWave</div><div class="pts">91 DPC</div></div><div class="rank"><div class="avatar">D</div><div class="name">5. Dmitry</div><div class="pts">73 DPC</div></div></div></div>
+    </section>
+
+    <!-- ===================== РЕЙТИНГ ===================== -->
+    <section id="view-rating" class="view">
+      <h2>Рейтинг активности</h2>
+      <div class="stat-block">
+        <div class="notice">Рейтинг демонстрационный. В production он считается сервером по подтверждённым действиям и истории начислений.</div>
+        <div id="rankingFull" style="margin-top:10px"><div class="rank me"><div class="avatar">D</div><div class="name">1. DropUser</div><div class="pts">1549 DPC</div></div><div class="rank"><div class="avatar">A</div><div class="name">2. AudioFan</div><div class="pts">128 DPC</div></div><div class="rank"><div class="avatar">M</div><div class="name">3. MaxDrop</div><div class="pts">104 DPC</div></div><div class="rank"><div class="avatar">L</div><div class="name">4. LenaWave</div><div class="pts">91 DPC</div></div><div class="rank"><div class="avatar">D</div><div class="name">5. Dmitry</div><div class="pts">73 DPC</div></div></div>
+      </div>
+    </section>
+
+    <!-- ===================== ПРОФИЛЬ ===================== -->
+    <section id="view-profile" class="view">
+      <h2>Профиль</h2>
+      <div class="card">
+        <div class="profile-head">
+          <div class="big-avatar" id="avatar">D</div>
+          <div>
+            <div style="font-weight:900;font-size:17px" id="profileName">DropUser</div>
+            <div class="label" style="margin:0">Ваш аккаунт</div>
+          </div>
+        </div>
+        <div class="account-balance" style="margin-top:14px">Актуальный счёт: <span id="profileBalance">1534</span> DPC</div>
+        <label>Имя</label>
+        <input id="nameInput" placeholder="Ваше имя">
+        <label>Email</label>
+        <input id="emailInput" placeholder="you@mail.ru">
+        <div class="row" style="margin-top:12px">
+          <button onclick="saveProfile()">Сохранить</button>
+          <button class="secondary" onclick="openBuy()">Купить DPC</button>
+        </div>
+      </div>
+
+      <h2>История</h2>
+      <div class="card">
+        <div class="label" style="margin:0 0 8px">Все действия за последние 5 дней. У каждой записи — дата и время, заказчик и исполнитель.</div>
+        <div id="historyList"><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">DPC Space: выпало 0 0 0 · выплата 1 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:54:33</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">D</div><div class="history-body"><div class="history-title">DPC Space · результат 000 · начислено 1 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:54:33</b></div><div class="history-date">заказчик: <b>DPC · игра</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">DPC Space: выпало 0 0 3 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:54:25</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">D</div><div class="history-body"><div class="history-title">DPC Space · результат 003 · начислено 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:54:25</b></div><div class="history-date">заказчик: <b>DPC · игра</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 3 0 · выплата 1 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:53:49</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 6 0 3 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:53:45</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 2 4 2 · выплата 2 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:53:41</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+2 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 0 3 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:53:38</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 3 0 · выплата 1 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:53:35</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 2 3 1 · выплата 1 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>20:53:30</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 0 0 · выплата 1 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:53:32</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 0 0 · выплата 1 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:53:29</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 3 0 · выплата 30 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:25:25</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+30 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 0 0 · выплата 0 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:25:21</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: Поделиться публикацией</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:25:09</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: Оставить комментарий</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:25:07</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">₽</div><div class="history-body"><div class="history-title">Создание задания «Моя семья станет богатая в течении этого года» · списано 9 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:24:38</b></div><div class="history-date">заказчик: <b>DropUser</b> · исполнитель: <b>DPC · платформа</b></div></div><div class="history-amount minus">-9 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 0 5 · выплата 5 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:21:50</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+5 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 1 0 2 · выплата 102 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:21:46</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+102 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 1 0 0 · выплата 100 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:21:32</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+100 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 0 0 · выплата 0 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:21:26</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">DPC Space: выпало 0 0 0 · выплата 0 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:21:09</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">D</div><div class="history-body"><div class="history-title">DPC Space · результат 000 · начислено 0 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:21:09</b></div><div class="history-date">заказчик: <b>DPC · игра</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 2 0 3 · выплата 203 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:20:53</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+203 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">DPC Space: выпало 2 0 0 · выплата 200 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:19:56</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+200 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 9 0 · выплата 90 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:19:43</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+90 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 1 0 · выплата 10 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:19:39</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+10 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 0 0 · выплата 0 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:19:36</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 3 0 0 · выплата 300 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:19:33</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+300 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">DPC Space: результат 0 0 0 · выплата 0 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:19:29</b></div><div class="history-date">заказчик: <b>DPC · DPC Space</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 0 3 0 · выплата 15 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:09:02</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+15 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 0 0 0 · выплата 100 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:08:55</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+100 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: результат 0 7 0 · выплата 15 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:08:47</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+15 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: результат 0 0 0 · выплата 100 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:08:14</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+100 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: м</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:07:58</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: Перейти на страницу релиза</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:07:57</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: Перейти на страницу релиза</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:07:55</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: Перейти на страницу релиза</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:07:54</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: м</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:07:53</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: Перейти на страницу релиза</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:07:52</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: м</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:07:50</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: м</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:07:48</b></div><div class="history-date">заказчик: <b>Audio Channel</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: результат 1 0 0 · выплата 15 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:04:45</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+15 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: результат 0 0 3 · выплата 15 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:04:38</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+15 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: результат 0 0 0 · выплата 100 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>15:04:33</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+100 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 3 6 7 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:31:45</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: попытка без выигрыша (приз 20 DPC был в подарке №2)</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:29:32</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 5 3 3 · выплата 15 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:29:19</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+15 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: попытка без выигрыша (приз 7 DPC был в подарке №3)</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:29:17</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 7 3 4 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:28:52</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: попытка без выигрыша (приз 7 DPC был в подарке №3)</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:28:43</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: попытка без выигрыша (приз 10 DPC был в подарке №2)</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:24:16</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: попытка без выигрыша (приз 3 DPC был в подарке №2)</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:24:11</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 5 6 3 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:20:09</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 2 8 6 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:20:00</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: попытка без выигрыша (приз 3 DPC был в подарке №2)</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:18:53</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: попытка без выигрыша (приз 1 DPC был в подарке №2)</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:18:49</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: попытка без выигрыша (приз 30 DPC был в подарке №1)</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:18:45</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 8 1 1 · выплата 15 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:18:41</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+15 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 1 9 7 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:18:33</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 9 5 7 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:18:17</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎁</div><div class="history-body"><div class="history-title">«Фортуна»: попытка без выигрыша (приз 20 DPC был в подарке №3)</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:17:56</b></div><div class="history-date">заказчик: <b>DPC · «Фортуна»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount ">0 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Рулетка «Живой слот»: выпало 7 3 0 · выплата 3 DPC</div><div class="history-date">дата выполнения: <b>25.09.2026</b> · время: <b>14:17:53</b></div><div class="history-date">заказчик: <b>DPC · рулетка «Живой слот»</b> · исполнитель: <b>DropUser</b></div></div><div class="history-amount plus">+3 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Выигрыш в рулетке</div><div class="history-date">дата выполнения: <b>25.09, 10:58</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: 1341</div><div class="history-date">дата выполнения: <b>25.09, 00:04</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">🎰</div><div class="history-body"><div class="history-title">Выигрыш в рулетке</div><div class="history-date">дата выполнения: <b>24.09, 23:53</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: 1341</div><div class="history-date">дата выполнения: <b>24.09, 23:49</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: 1341</div><div class="history-date">дата выполнения: <b>24.09, 23:49</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: 1341</div><div class="history-date">дата выполнения: <b>24.09, 23:49</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: 1341</div><div class="history-date">дата выполнения: <b>24.09, 23:49</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: 1341</div><div class="history-date">дата выполнения: <b>24.09, 23:49</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: 1341</div><div class="history-date">дата выполнения: <b>24.09, 15:19</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div><div class="history-item"><div class="history-icon">✓</div><div class="history-body"><div class="history-title">Выполнение задания: 1341</div><div class="history-date">дата выполнения: <b>24.09, 15:19</b> · время: <b></b></div><div class="history-date">заказчик: <b>—</b> · исполнитель: <b>—</b></div></div><div class="history-amount plus">+1 DPC</div></div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<nav>
+  <button class="" data-view="home" onclick="go(&#39;home&#39;,this)"><span>⌂</span>Главная</button>
+  <button data-view="stats" onclick="go(&#39;stats&#39;,this)" class="active"><span>📊</span>Статистика</button>
+  <button data-view="rating" onclick="go(&#39;rating&#39;,this)"><span>♛</span>Рейтинг</button>
+  <button data-view="profile" onclick="go(&#39;profile&#39;,this)"><span>◉</span>Профиль</button>
+</nav>
+
+<!-- ===== МОДАЛКА: СОЗДАТЬ ЗАДАНИЕ ===== -->
+<div class="modal" id="taskModal" onclick="if(event.target===this)closeTask()">
+  <div class="sheet">
+    <h3>Создать задание</h3>
+    <p class="label" style="margin:0 0 6px">К списанию: <b id="costLine">3 DPC</b> · валютный обмен: репост 1 DPC, комментарий 3 DPC, подписка 5 DPC</p>
+    <label>Комментарий к заказу</label>
+    <input id="newTitle" placeholder="Например: репост нового релиза">
+    <label>Ссылка</label>
+    <input id="newUrl" placeholder="https://vk.ru/...">
+    <label>Жанр</label>
+    <select id="orderGenre">
+      <option value="">Выберите жанр</option>
+      <option>Ambient</option><option>Hip-Hop</option><option>Pop</option><option>Rock</option>
+      <option>Electronic</option><option>Lo-fi</option><option>House</option><option>Techno</option>
+      <option>Drum &amp; Bass</option><option>R&amp;B</option><option>Jazz</option>
+      <option>Classical</option><option>Soundtrack</option><option>Другое</option>
+    </select>
+    <label>Тип задания</label>
+    <div class="task-subtypes">
+      <label class="sub-option"><input type="radio" name="taskType" value="repost" onchange="syncReward(&#39;repost&#39;)"> ↗ Репост · 1 DPC</label>
+      <label class="sub-option"><input type="radio" name="taskType" value="comment" checked="" onchange="syncReward(&#39;comment&#39;)"> 💬 Комментарий · 3 DPC</label>
+      <label class="sub-option"><input type="radio" name="taskType" value="subscribe" onchange="syncReward(&#39;subscribe&#39;)"> ＋ Подписка · 5 DPC</label>
+    </div>
+    <label>Награда исполнителю</label>
+    <select id="newReward" onchange="updateCost()">
+      <option value="1">1 DPC</option>
+      <option value="3">3 DPC</option>
+      <option value="5">5 DPC</option>
+      <option value="10">10 DPC</option>
+    </select>
+    <div class="row" style="margin-top:14px">
+      <button onclick="createTask()">Создать задание</button>
+      <button class="secondary" onclick="closeTask()">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== МОДАЛКА: КУПИТЬ DPC ===== -->
+<div class="modal" id="buyModal" onclick="if(event.target===this)closeBuy()">
+  <div class="sheet">
+    <h3>Купить DPC</h3>
+    <p class="label" style="margin:0 0 6px">Демо-оплата. Реальный эквайринг подключается через backend и платёжного провайдера.</p>
+    <label>Пакет</label>
+    <select id="buyPack">
+      <option value="100">100 DPC — 99 ₽</option>
+      <option value="500" selected="">500 DPC — 449 ₽</option>
+      <option value="1000">1000 DPC — 799 ₽</option>
+    </select>
+    <div class="row" style="margin-top:14px">
+      <button onclick="pay()">Перейти к оплате</button>
+      <button class="secondary" onclick="closeBuy()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">DPC Space: +1 DPC (000)</div>
+
+<script>
+/* ================== ТИПЫ И ЦЕНЫ (валютный обмен) ==================
+   Репост — 1 DPC · Комментарий — 3 DPC · Подписка — 5 DPC */
+const TYPES={
+  repost:{label:'Репост',icon:'↗',price:1},
+  comment:{label:'Комментарий',icon:'💬',price:3},
+  subscribe:{label:'Подписка',icon:'＋',price:5}
+};
+const typeLabel=k=>TYPES[k]?TYPES[k].label:'Комментарии';
+const NAMES=['AudioFan','MaxDrop','LenaWave','Dmitry','NikaSound','Beats_M','Kirill_Ph'];
+
+/* ================== СОСТОЯНИЕ ================== */
+const defaultState={
+  balance:55,earned:67,done:9,name:'DropUser',email:'',history:[],
+  completed:{repost:6,comment:2,subscribe:1},
+  myTasks:[
+    {title:'Репост нового релиза',type:'repost',reward:1,done:12},
+    {title:'Комментарий под треком',type:'comment',reward:3,done:7},
+    {title:'Подписка на канал',type:'subscribe',reward:5,done:4}
+  ],
+  tasks:[
+    {title:'Перейти на страницу релиза',reward:1,desc:'Открыть ссылку и подтвердить выполнение',url:'https://vk.ru/publicaudiochannel',type:'comment',owner:'Audio Channel'},
+    {title:'Оставить комментарий',reward:3,desc:'Комментарий по правилам задания',url:'https://vk.ru/publicaudiochannel',type:'comment',owner:'Audio Channel'},
+    {title:'Поделиться публикацией',reward:1,desc:'Репост/поделиться — только там, где это разрешено правилами площадки',url:'https://vk.ru/wall-127246681_80299',type:'repost',owner:'Audio Channel'},
+    {title:'Подписаться на канал',reward:5,desc:'Подписка на сообщество Audio Channel',url:'https://vk.ru/publicaudiochannel',type:'subscribe',owner:'Audio Channel'},
+    {title:'Репост новости о релизе',reward:1,desc:'Поделиться записью на своей странице',url:'https://vk.ru/wall-127246681_80299',type:'repost',owner:'Audio Channel'}
+  ]
+};
+let saved=null;try{saved=JSON.parse(localStorage.getItem('dropcoins')||'null')}catch(e){}
+const state=Object.assign({},defaultState,saved||{});
+state.history=Array.isArray(state.history)?state.history:[];
+state.tasks=(Array.isArray(state.tasks)&&state.tasks.length)?state.tasks:defaultState.tasks.map(t=>Object.assign({},t));
+state.completed=Object.assign({repost:0,comment:0,subscribe:0},state.completed||{});
+state.myTasks=(Array.isArray(state.myTasks)&&state.myTasks.length)?state.myTasks:defaultState.myTasks.map(t=>Object.assign({},t));
+if(typeof state.balance!=='number')state.balance=55;
+if(typeof state.earned!=='number')state.earned=0;
+if(typeof state.done!=='number')state.done=0;
+let filter='all';
+
+/* ================== УТИЛИТЫ ================== */
+function setText(id,v){const el=document.getElementById(id);if(el)el.textContent=v}
+function val(id,v){const el=document.getElementById(id);if(el)el.value=v}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const p2=n=>String(n).padStart(2,'0');
+function fmtDate(d){return p2(d.getDate())+'.'+p2(d.getMonth()+1)+'.'+d.getFullYear()}
+function fmtTime(d){return p2(d.getHours())+':'+p2(d.getMinutes())+':'+p2(d.getSeconds())}
+function fmtDT(d){return fmtDate(d)+', '+fmtTime(d)}
+function persist(){try{localStorage.setItem('dropcoins',JSON.stringify(state))}catch(e){}render()}
+function toast(s){const t=document.getElementById('toast');if(!t)return;t.textContent=s;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2100)}
+
+/* ================== СЧЁТЧИК ПОЛЬЗОВАТЕЛЕЙ: старт 16 080, +1…5 в день ================== */
+function dayKey(d){d=d||new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+let usersState={count:16080,day:dayKey(),today:0};
+function initUsers(){
+  let u=null;try{u=JSON.parse(localStorage.getItem('dpc_users')||'null')}catch(e){}
+  if(!u||typeof u.count!=='number')u={count:16080,day:dayKey(),today:0};
+  const now=dayKey();
+  if(u.day!==now){
+    const diff=Math.round((new Date(now+'T00:00:00')-new Date(u.day+'T00:00:00'))/86400000);
+    const days=Math.max(1,Math.min(diff||1,60));
+    let add=0;
+    for(let i=0;i<days;i++)add+=1+Math.floor(Math.random()*5);
+    u.count+=add;
+    u.today=0;
+    u.day=now;
+    try{localStorage.setItem('dpc_users',JSON.stringify(u))}catch(e){}
+  }
+  usersState=u;
+}
+function saveUsers(){try{localStorage.setItem('dpc_users',JSON.stringify(usersState))}catch(e){}}
+function renderUsers(){
+  setText('usersCount',usersState.count.toLocaleString('ru-RU'));
+  setText('hudUsers',usersState.count.toLocaleString('ru-RU'));
+  setText('usersToday','+'+(usersState.today||0)+' сегодня');
+}
+
+/* ================== ЧАСЫ И СЕКУНДОМЕР ================== */
+function tick(){
+  const d=new Date();
+  setText('clockTime',p2(d.getHours())+':'+p2(d.getMinutes())+':'+p2(d.getSeconds()));
+  setText('clockDate',fmtDate(d));
+}
+const sw={run:false,ms:0,start:0,timer:null};
+function swFmt(ms){
+  const sec=Math.floor(ms/1000),m=Math.floor(sec/60),h=Math.floor(m/60);
+  return (h?p2(h)+':':'')+p2(m%60)+':'+p2(sec%60);
+}
+function swPaint(){setText('swTime',swFmt(sw.ms))}
+function swToggle(){
+  const btn=document.getElementById('swToggle');
+  if(sw.run){sw.run=false;clearInterval(sw.timer);if(btn)btn.textContent='▶'}
+  else{sw.run=true;sw.start=Date.now()-sw.ms;sw.timer=setInterval(()=>{sw.ms=Date.now()-sw.start;swPaint()},200);if(btn)btn.textContent='❚❚'}
+}
+function swReset(){sw.run=false;clearInterval(sw.timer);sw.ms=0;sw.start=0;const btn=document.getElementById('swToggle');if(btn)btn.textContent='▶';swPaint()}
+
+/* ================== РУЛЕТКА «ЖИВОЙ СЛОТ»: 0–9, без ограничений, спин 5 сек ================== */
+const REEL_H=64,CYCLES=5;
+const HOURLY_KEY='dpc_hourly_seed_v2';
+let spinning=false,reelDigits=[0,0,0],fortuneBusy=false;
+
+/* 0 = 80%; 1/2/3 = по 5%; 4..9 = суммарно 5%. */
+function weightedDigit(){
+  const r=Math.random();
+  if(r<.80)return 0;
+  if(r<.85)return 1;
+  if(r<.90)return 2;
+  if(r<.95)return 3;
+  return 4+Math.floor(Math.random()*6);
+}
+function hourKey(d=new Date()){return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())+'-'+p2(d.getHours())}
+function hourlyState(){
+  let s=null;try{s=JSON.parse(localStorage.getItem(HOURLY_KEY)||'null')}catch(e){}
+  const key=hourKey();if(!s||s.key!==key)s={key:key,digits:[0,0,0]};return s;
+}
+function saveHourlyState(s){try{localStorage.setItem(HOURLY_KEY,JSON.stringify(s))}catch(e){}}
+function resetHourlyGames(force=false){
+  const s=hourlyState();
+  if(force||!Array.isArray(s.digits)||s.digits.length!==3){s.digits=[0,0,0];saveHourlyState(s)}
+  reelDigits=s.digits.slice();buildReels();paintFortuneDigits(s.digits);
+  setText('fortuneHour','SYNC '+p2(new Date().getMinutes())+':'+p2(new Date().getSeconds()));
+}
+function checkHourlyReset(){
+  const s=hourlyState();
+  if(s.key!==hourKey()){s.key=hourKey();s.digits=[0,0,0];saveHourlyState(s);resetHourlyGames(true)}
+}
+function rstate(){let r=null;try{r=JSON.parse(localStorage.getItem('dpc_slot_v1')||'null')}catch(e){}if(!r||typeof r!=='object')r={won:0,spins:0,best:0};return r}
+function saveRstate(r){try{localStorage.setItem('dpc_slot_v1',JSON.stringify(r))}catch(e){}}
+function stripHTML(start){let h='';for(let i=0;i<CYCLES*10;i++)h+='<div class="cell">'+((start+i)%10)+'</div>';return h}
+function resetReel(id,digit){const el=document.getElementById(id);if(!el)return;el.style.transition='none';el.innerHTML=stripHTML(digit);el.style.transform='translateY(0px)'}
+function buildReels(){['reel1','reel2','reel3'].forEach((id,k)=>resetReel(id,reelDigits[k]||0))}
+function payout(r){
+  const n=(Number(r[0])||0)*100+(Number(r[1])||0)*10+(Number(r[2])||0);
+  return Math.min(10,Math.max(1,(n%10)||1));
+}
+function creditGameWin(amount,label,result){
+  const d=Math.min(10,Math.max(1,Math.round(Number(amount)||1)));
+  state.balance+=d;
+  state.earned+=d;
+  if(d>0){
+    addHistory('game',label+' · результат '+result+' · начислено '+d+' DPC',d,
+      {customer:'DPC · игра',executor:state.name});
+  }else{
+    addHistory('game',label+' · результат '+result+' · начислено 0 DPC',0,
+      {customer:'DPC · игра',executor:state.name});
+  }
+  persist();
+  return d;
+}
+function comboTitle(r){const s=r.join('');if(s==='777')return '777 — джекпот!';if(r[0]===r[1]&&r[1]===r[2])return 'три одинаковых!';if(r[0]===r[1]||r[1]===r[2]||r[0]===r[2])return 'две одинаковых';return 'все разные'}
+
+function spin(){
+  if(spinning)return;checkHourlyReset();spinning=true;
+  const btn=document.getElementById('spinBtn');if(btn)btn.disabled=true;
+  reelDigits=[0,0,0];['reel1','reel2','reel3'].forEach(id=>resetReel(id,0));
+  const first=document.getElementById('reel1');if(first)void first.offsetHeight;
+  const res=[weightedDigit(),weightedDigit(),weightedDigit()],durs=[4400,4700,5000];
+  ['reel1','reel2','reel3'].forEach((id,k)=>{const el=document.getElementById(id);if(!el)return;const target=(CYCLES*10-10)+res[k];el.style.transition='transform '+durs[k]+'ms cubic-bezier(.12,.74,.03,1)';el.style.transform='translateY(-'+target*REEL_H+'px)'});
+  const reels=document.getElementById('reels');if(reels)reels.classList.add('spin');setText('spinNote','Крутится… выплата равна результату 1:1');
+  setTimeout(()=>finishSpin(res),5060);
+}
+function finishSpin(res){
+  const reels=document.getElementById('reels');if(reels)reels.classList.remove('spin');reelDigits=res.slice();
+  ['reel1','reel2','reel3'].forEach((id,k)=>resetReel(id,res[k]));
+  const hs=hourlyState();hs.digits=res.slice();saveHourlyState(hs);
+  const amt=payout(res),rl=rstate();rl.spins=(rl.spins||0)+1;rl.won=(rl.won||0)+amt;rl.best=Math.max(rl.best||0,amt);saveRstate(rl);
+  creditGameWin(amt,'DPC Space',res.join(''));
+  addHistory('roulette','DPC Space: выпало '+res.join(' ')+' · выплата '+amt+' DPC',amt,{customer:'DPC · DPC Space',executor:state.name});
+  spinning=false;const btn=document.getElementById('spinBtn');if(btn)btn.disabled=false;persist();
+  const note=document.getElementById('spinNote');if(note)note.innerHTML='Выпало <b>'+res.join(' ')+'</b> — '+comboTitle(res)+' <span class="roul-win">+'+amt+' DPC</span>.';
+  toast(amt ? 'DPC Space: +'+amt+' DPC ('+res.join('')+')' : 'DPC Space: 000 — начисление 0 DPC');renderStats();
+}
+
+/* ================== DPC SPACE ================== */
+function fstate(){let f=null;try{f=JSON.parse(localStorage.getItem('dpc_fortune_v2')||'null')}catch(e){}if(!f||typeof f!=='object')f={won:0,attempts:0,best:0};return f}
+function saveFstate(f){try{localStorage.setItem('dpc_fortune_v2',JSON.stringify(f))}catch(e){}}
+function paintFortuneDigits(digits){const box=document.getElementById('fortuneDigits');if(box)box.innerHTML=digits.map(d=>'<span>'+d+'</span>').join('')}
+function pickGift(i){
+  if(fortuneBusy)return;checkHourlyReset();fortuneBusy=true;
+  const game=document.getElementById('fortuneGame'),btn=document.getElementById('fortuneBtn'),meter=document.getElementById('fortuneMeter');
+  if(btn)btn.disabled=true;if(game)game.classList.add('running');setText('fortuneState','CALCULATING · 1:1');if(meter)meter.style.width='12%';
+  let progress=12;const timer=setInterval(()=>{progress=Math.min(96,progress+Math.random()*18);if(meter)meter.style.width=progress+'%'},120);
+  const res=[weightedDigit(),weightedDigit(),weightedDigit()];
+  setTimeout(()=>{
+    clearInterval(timer);if(meter)meter.style.width='100%';paintFortuneDigits(res);
+    const hs=hourlyState();hs.digits=res.slice();saveHourlyState(hs);
+    if(game){game.classList.remove('running');game.classList.add('success')}setText('fortuneState','LOCKED');
+    const prize=Math.min(10,Math.max(1,payout(res))),f=fstate();f.attempts=(f.attempts||0)+1;f.won=(f.won||0)+prize;f.best=Math.max(f.best||0,prize);saveFstate(f);
+    state.balance+=prize;state.earned+=prize;
+    addHistory('fortune','DPC Space: результат '+res.join(' ')+' · выплата '+prize+' DPC',prize,{customer:'DPC · DPC Space',executor:state.name});
+    persist();const note=document.getElementById('fortuneNote');if(note)note.innerHTML='Результат <b>'+res.join(' ')+'</b> — '+comboTitle(res)+' · <span class="roul-win">+'+prize+' DPC</span>';
+    toast(prize ? 'DPC Space: +'+prize+' DPC' : 'DPC Space: 000 — начисление 0 DPC');renderStats();
+    setTimeout(()=>{if(game)game.classList.remove('success');if(btn)btn.disabled=false;fortuneBusy=false;setText('fortuneState','STANDBY');if(meter)meter.style.width='0%'},1500);
+  },1250);
+}
+
+/* ================== ИСТОРИЯ (дата · время · заказчик · исполнитель) ================== */
+function pruneHistory(){
+  const cutoff=Date.now()-5*24*60*60*1000;
+  state.history=state.history.filter(h=>h.ts&&h.ts>=cutoff);
+}
+function addHistory(type,title,amount,o){
+  o=o||{};
+  const d=o.ts?new Date(o.ts):new Date();
+  state.history.unshift({
+    type:type,
+    title:title,
+    amount:amount,
+    customer:o.customer||'—',
+    executor:o.executor||state.name||'—',
+    ts:d.getTime(),
+    date:fmtDate(d),
+    time:fmtTime(d)
+  });
+  pruneHistory();
+}
+function renderHistory(){
+  const el=document.getElementById('historyList');if(!el)return;
+  if(!state.history.length){el.innerHTML='<div class="empty">За последние 5 дней действий нет</div>';return}
+  el.innerHTML=state.history.map(h=>{
+    const ico=h.type==='buy'?'₽':h.type==='roulette'?'🎰':h.type==='fortune'?'🎁':h.type==='task'?'✓':'D';
+    const amt=h.amount||0;
+    const cls=amt>0?'plus':(amt<0?'minus':'');
+    return '<div class="history-item">'
+      +'<div class="history-icon">'+ico+'</div>'
+      +'<div class="history-body">'
+        +'<div class="history-title">'+esc(h.title)+'</div>'
+        +'<div class="history-date">дата выполнения: <b>'+esc(h.date||'')+'</b> · время: <b>'+esc(h.time||'')+'</b></div>'
+        +'<div class="history-date">заказчик: <b>'+esc(h.customer||'—')+'</b> · исполнитель: <b>'+esc(h.executor||'—')+'</b></div>'
+      +'</div>'
+      +'<div class="history-amount '+cls+'">'+(amt>0?'+':'')+amt+' DPC</div>'
+      +'</div>';
+  }).join('');
+}
+
+/* ================== ЗАДАНИЯ ================== */
+function renderFilter(){
+  const el=document.getElementById('filterChip');if(!el)return;
+  if(filter==='all'){el.style.display='none';el.innerHTML=''}
+  else{el.style.display='inline-block';el.innerHTML='Показаны: '+typeLabel(filter)+' ✕'}
+}
+function doTask(i){
+  const t=state.tasks[i];
+  if(!t)return;
+  const now=new Date();
+  const reward=t.reward||0;
+  t.runs=(t.runs||0)+1;
+  t.lastAt=fmtDT(now);
+  t.lastBy=state.name;
+  state.balance+=reward;
+  state.earned+=reward;
+  state.done=(state.done||0)+1;
+  state.completed[t.type]=(state.completed[t.type]||0)+1;
+  addHistory('task','Выполнение задания: '+t.title,t.reward||0,
+    {customer:t.owner||'Пользователь',executor:state.name,ts:now});
+  persist();
+  toast('+'+reward+' DPC · заказчик: '+(t.owner||'Пользователь'));
+}
+function renderTasks(){
+  const el=document.getElementById('taskList');if(!el)return;
+  const list=state.tasks.map((t,i)=>({t:t,i:i})).filter(x=>filter==='all'||x.t.type===filter);
+  if(!list.length){el.innerHTML='<div class="empty">По этому типу заданий пока нет</div>';return}
+  el.innerHTML=list.map(x=>{
+    const t=x.t;
+    const owner=t.owner||'Пользователь';
+    const done=t.lastAt?'<div class="task-done">✓ Выполнено '+esc(t.lastAt)+' · исполнитель: '+esc(t.lastBy||state.name)+' · всего выполнений: '+(t.runs||1)+'</div>':'';
+    const link=t.url?'<a class="task-link" href="'+esc(t.url)+'" target="_blank" rel="noopener">Открыть ссылку задания →</a>':'';
+    return '<div class="task">'
+      +'<div class="task-top"><div class="task-title">'+esc(t.title)+'</div><div class="reward">+'+t.reward+' DPC</div></div>'
+      +'<small>'+typeLabel(t.type)+' · '+esc(t.desc||'Выполните действие по инструкции')+'</small>'
+      +'<div class="customer">Заказчик: '+esc(owner)+'</div>'
+      +link
+      +'<button onclick="doTask('+x.i+')">'+(t.lastAt?'Выполнить снова':'Выполнить')+'</button>'
+      +done
+      +'</div>';
+  }).join('');
+}
+function filterTasks(type){
+  document.querySelectorAll('.action-card').forEach(c=>c.classList.remove('open'));
+  filter=(filter===type)?'all':type;
+  render();
+  if(filter!=='all'){
+    toast('Показаны: '+typeLabel(filter));
+    const box=document.getElementById('taskList');
+    if(box)box.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function clearFilter(){filter='all';render()}
+
+/* ================== РАСКРЫТИЕ КАРТОЧЕК ДЕЙСТВИЙ ================== */
+function toggleActions(id){
+  const card=document.getElementById(id);if(!card)return;
+  const willOpen=!card.classList.contains('open');
+  document.querySelectorAll('.action-card').forEach(c=>c.classList.remove('open'));
+  if(willOpen)card.classList.add('open');
+}
+
+/* ================== МОДАЛКА ЗАДАНИЯ ================== */
+function openTaskForm(type){
+  document.querySelectorAll('.action-card').forEach(c=>c.classList.remove('open'));
+  const t=type||'comment';
+  const r=document.querySelector('input[name="taskType"][value="'+t+'"]');
+  if(r)r.checked=true;
+  syncReward(t);
+  const m=document.getElementById('taskModal');if(m)m.classList.add('show');
+}
+function closeTask(){const m=document.getElementById('taskModal');if(m)m.classList.remove('show')}
+function syncReward(type){
+  const sel=document.getElementById('newReward');if(!sel)return;
+  const p=(TYPES[type]||TYPES.comment).price;
+  const opt=[].slice.call(sel.options).find(o=>+o.value===p);
+  if(opt)sel.value=opt.value;
+  updateCost();
+}
+function updateCost(){
+  const sel=document.getElementById('newReward');if(!sel)return;
+  const reward=+sel.value||1;
+  setText('costLine',(reward*3)+' DPC');
+}
+function createTask(){
+  const title=document.getElementById('newTitle').value.trim();
+  const url=document.getElementById('newUrl').value.trim();
+  const genre=(document.getElementById('orderGenre')?.value||'').trim();
+  const reward=+document.getElementById('newReward').value;
+  const r=document.querySelector('input[name="taskType"]:checked');
+  const type=r?r.value:'comment';
+  if(!title||!url)return toast('Заполните комментарий к заказу и ссылку');
+  const cost=reward*3;
+  if(state.balance<cost)return toast('Недостаточно DPC: нужно '+cost+', на счёте '+state.balance);
+  const now=new Date();
+  state.balance-=cost;
+  state.myTasks.unshift({
+    title:title,type:type,reward:reward,done:0,url:url,genre:genre,
+    owner:state.name,createdAt:fmtDT(now),events:[]
+  });
+  addHistory('buy','Создание задания «'+title+'» · списано '+cost+' DPC',-cost,
+    {customer:state.name,executor:'DPC · платформа',ts:now});
+  document.getElementById('newTitle').value='';
+  document.getElementById('newUrl').value='';
+  if(document.getElementById('orderGenre'))document.getElementById('orderGenre').value='';
+  closeTask();
+  persist();
+  toast('Задание создано: '+title+' · заказчик: '+state.name);
+}
+
+/* ================== ПОКУПКА DPC ================== */
+function openBuy(){const m=document.getElementById('buyModal');if(m)m.classList.add('show')}
+function closeBuy(){const m=document.getElementById('buyModal');if(m)m.classList.remove('show')}
+function pay(){
+  const sel=document.getElementById('buyPack');
+  const pack=sel?+sel.value:100;
+  state.balance+=pack;
+  addHistory('buy','Покупка пакета '+pack+' DPC',pack,{customer:'DPC Store',executor:state.name});
+  closeBuy();
+  persist();
+  toast('Начислено '+pack+' DPC');
+}
+
+/* ================== ПРОФИЛЬ ================== */
+function saveProfile(){
+  const n=document.getElementById('nameInput').value.trim();
+  const em=document.getElementById('emailInput').value.trim();
+  if(!n)return toast('Введите имя');
+  state.name=n;
+  state.email=em;
+  persist();
+  toast('Профиль сохранён');
+}
+
+/* ================== РЕЙТИНГ ================== */
+function renderRating(){
+  const base=[['AudioFan',128],['MaxDrop',104],['LenaWave',91],['Dmitry',73]];
+  const rs=base.filter(x=>x[0]!==state.name).concat([[state.name,state.earned]]).sort((a,b)=>b[1]-a[1]);
+  const html=rs.slice(0,5).map((u,i)=>{
+    const me=u[0]===state.name?' me':'';
+    return '<div class="rank'+me+'"><div class="avatar">'+esc((u[0][0]||'D').toUpperCase())+'</div>'
+      +'<div class="name">'+(i+1)+'. '+esc(u[0])+'</div><div class="pts">'+u[1]+' DPC</div></div>';
+  }).join('');
+  ['ranking','rankingFull'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html});
+}
+
+/* ================== СТАТИСТИКА ================== */
+function renderStats(){
+  const c=state.completed;
+  const total=(c.repost||0)+(c.comment||0)+(c.subscribe||0);
+  const max=Math.max(1,c.repost||0,c.comment||0,c.subscribe||0);
+  setText('statDoneTotal',total);
+  setText('doneBreak',total+' шт.');
+  const md=document.getElementById('myDone');
+  if(md)md.innerHTML=Object.keys(TYPES).map(k=>{
+    const n=c[k]||0,w=Math.round(n/max*100);
+    return '<div class="stat-row"><div class="stat-ico">'+TYPES[k].icon+'</div>'
+      +'<div class="stat-info"><div class="stat-name">'+TYPES[k].label+'</div>'
+      +'<div class="stat-bar"><i style="width:'+w+'%"></i></div></div>'
+      +'<div class="stat-num">'+n+' шт.</div></div>';
+  }).join('');
+
+  const mt=state.myTasks||[];
+  const recv=mt.reduce((s,t)=>s+(t.done||0),0);
+  const spent=mt.reduce((s,t)=>s+(t.done||0)*(t.reward||0),0);
+  setText('statRecvTotal',recv);
+  setText('statSpent',spent+' DPC');
+  setText('myTasksBreak',mt.length+' заданий');
+  const box=document.getElementById('myTasksStats');
+  if(box)box.innerHTML=mt.length?mt.map(t=>{
+    const n=t.done||0;
+    const ev=(t.events||[]).slice(0,3).map(e=>esc(e.by)+' — '+esc(e.at)).join(' · ');
+    return '<div class="stat-row"><div class="stat-ico">'+(TYPES[t.type]||TYPES.comment).icon+'</div>'
+      +'<div class="stat-info"><div class="stat-name">'+esc(t.title)+'</div>'
+      +'<div class="stat-note">'+typeLabel(t.type)+' · '+t.reward+' DPC за действие · заказчик: <b>'+esc(t.owner||state.name)+'</b> · создано: <b>'+esc(t.createdAt||'—')+'</b></div>'
+      +'<div class="stat-note">'+(ev?'последние исполнители: '+ev:'исполнителей пока нет')+'</div>'
+      +'</div><div class="stat-num">'+n+'</div></div>';
+  }).join(''):'<div class="empty">Вы ещё не создавали заданий</div>';
+
+  const rl=rstate();
+  setText('statRoul',(rl.won||0)+' DPC');
+  setText('statRoulSpins','спинов: '+(rl.spins||0));
+  setText('statRoulBest','лучший выигрыш: '+(rl.best||0)+' DPC');
+
+  const f=fstate();
+  setText('statFort',(f.won||0)+' DPC');
+  setText('statFortTries','попыток: '+(f.attempts||0));
+  setText('statFortBest','лучший приз: '+(f.best||0)+' DPC');
+}
+
+/* ================== ЖИВЫЕ ИСПОЛНЕНИЯ ВАШИХ ЗАКАЗОВ ================== */
+function seedMyTasks(){
+  state.myTasks.forEach(t=>{
+    if(!t.createdAt)t.createdAt=fmtDT(new Date(Date.now()-((t.title.length%5)+2)*86400000));
+    if(!t.owner)t.owner=state.name;
+    if(!Array.isArray(t.events)){
+      t.events=[];
+      const n=Math.min(t.done||0,3);
+      for(let i=0;i<n;i++)t.events.push({by:NAMES[(t.title.length+i)%NAMES.length],at:fmtDT(new Date(Date.now()-(i+1)*6*3600000))});
+    }
+  });
+}
+function liveExecution(){
+  const list=state.myTasks;
+  if(!list||!list.length)return;
+  const t=list[Math.floor(Math.random()*list.length)];
+  const now=new Date();
+  t.done=(t.done||0)+1;
+  t.events=Array.isArray(t.events)?t.events:[];
+  t.events.unshift({by:NAMES[Math.floor(Math.random()*NAMES.length)],at:fmtDT(now)});
+  t.events=t.events.slice(0,3);
+  persist();
+}
+
+/* ================== НАВИГАЦИЯ ================== */
+function go(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const v=document.getElementById('view-'+id);if(v)v.classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  if(btn&&btn.classList)btn.classList.add('active');
+  else{const nb=document.querySelector('nav button[data-view="'+id+'"]');if(nb)nb.classList.add('active')}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================== РЕНДЕР ================== */
+function render(){
+  pruneHistory();
+  setText('balance',state.balance);
+  setText('profileBalance',state.balance);
+  setText('earned',state.earned);
+  setText('done',state.done);
+  setText('profileName',state.name);
+  val('nameInput',state.name);
+  val('emailInput',state.email||'');
+  setText('avatar',((state.name||'D')[0]||'D').toUpperCase());
+  renderTasks();renderHistory();renderStats();renderRating();renderFilter();
+}
+
+/* ================== СТАРТ ================== */
+const stBtn=document.getElementById('swToggle');if(stBtn)stBtn.onclick=swToggle;
+const srBtn=document.getElementById('swReset');if(srBtn)srBtn.onclick=swReset;
+initUsers();
+seedMyTasks();
+buildReels();
+renderUsers();
+tick();
+setInterval(tick,1000);
+swPaint();
+resetHourlyGames(false);
+setInterval(checkHourlyReset,1000);
+
+render();
+updateCost();
+setInterval(liveExecution,45000);
+setInterval(()=>{if(Math.random()<0.4){usersState.count++;usersState.today=(usersState.today||0)+1;saveUsers();renderUsers();}},25000);
+</script>
+
+
+</body></html>
